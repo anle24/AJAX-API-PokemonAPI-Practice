@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <title>Pokemon API</title>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        for (var i = 1; i <= 151; i++){
+          $('.pokemon').append('<img class="pokepic" id="' + i + '" src="http://pokeapi.co/media/img/' + i + '.png">');
+        }
+
+        $(document).on('click', '.pokepic', function(){
+          var pokephoto = $(this).attr('src');
+          $.get("http://pokeapi.co/api/v1/pokemon/" + $(this).attr('id'), function(res) {
+                    var html_str = "";
+                    html_str += "<h3>" + res.name + "</h3>"
+                    html_str += "<img src='" + pokephoto + "'>";
+                    html_str += "<h4>Types</h4>";
+                    html_str += "<ul>";
+                    for(var i = 0; i < res.types.length; i++) {
+                        html_str += "<li>" + res.types[i].name + "</li>";
+                    }
+                    html_str += "</ul>";
+                    html_str += "<h4>Height</h4>" + res.height;
+                    html_str += "<h4>Weight</h4>" + res.weight;
+                    $("#screen").html(html_str);
+          }, "json");
+        })
+      });
+    </script>
+
+    <style type="text/css">
+      .pokemon {
+        width: 48em;
+        display: inline-block;
+      }
+
+      .pokedex {
+        vertical-align: top;
+        position: fixed;
+        display: inline-block;
+        height: 35em;
+        width: 20em;
+        background-color: red;
+        border: 0.5em outset rgb(166, 24, 24);
+        border-radius: 0.2em;
+        padding-top: 1em;
+      }
+
+      #screen {
+        background-color: white;
+        width: 16em;
+        height: 25em;
+        border: 0.3em inset gray;
+        margin: auto;
+        padding: 1em;
+      }
+
+      h3 {
+        margin: auto;
+      }
+
+      h4 {
+        margin: 1em 0em 0em 0em;
+      }
+
+      ul {
+        margin: 0em;
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="pokemon">
+
+    </div>
+
+    <div class="pokedex">
+      <div id="screen">
+
+      </div>
+    </div>
+
+  </body>
+
+</html>
